@@ -41,7 +41,7 @@ def horloge():
         print("Format invalide. Veuillez entrer l'heure au format HH:MM:SS .")
         return 
     while True:
-        print("%H:%M:%S", end='\r')
+        print(f"{h:02}:{m:02}:{s:02}", end='\r')
         time.sleep(1)
         s += 1
         if s == 60:
@@ -52,6 +52,10 @@ def horloge():
             h += 1
         if h == 24:
             h = 0
+            sleep(1)
+        os.system('cls')
+        continue
+
 def menu():
     while True:
         print ("____MENU_DE_L'HORLOGE____")
