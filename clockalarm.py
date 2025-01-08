@@ -18,17 +18,22 @@ def alarme():
         return alarme()
 
 def afficher_heure(heure_reveil):
-    while True:
-        now = datetime.now()
-        heure_actuel = now.strftime("%H:%M:%S")
-        print(heure_actuel, end="\r")  
-        time.sleep(1)
-        if heure_actuel == heure_reveil:
-            print("\nDebout, FEIGNAAAAASSEEEE !!!!! ")
-            alarme_sound.play()
-            sleep(16)
-        os.system('cls')
-        continue
+    try:
+        while True:
+            now = datetime.now()
+            heure_actuel = now.strftime("%H:%M:%S")
+            print(heure_actuel, end="\r")
+            time.sleep(1)
+
+            if heure_actuel == heure_reveil:
+                print("\nDebout, FEIGNAAAAASSEEEE !!!!! ")
+                alarme_sound.play()
+                sleep(16)
+
+            os.system('cls')
+    except KeyboardInterrupt:
+        print("\nAffichage de l'heure interrompu par l'utilisateur. Retour au menu.")
+
 
 def horloge():
     heure_debut = input("Entrez l'heure de départ HH:MM:SS :")    
