@@ -36,30 +36,35 @@ def afficher_heure(heure_reveil):
 
 
 def horloge():
-    heure_debut = input("Entrez l'heure de départ HH:MM:SS :")    
     try:
-        h, m, s = map(int, heure_debut.split(':'))
-        if not (0 <= h < 24 and 0 <= m < 60 and 0 <= s < 60):
-            print("Heure invalide. Veuillez entrer une heure valide .")
-            return
-    except ValueError:
-        print("Format invalide. Veuillez entrer l'heure au format HH:MM:SS .")
-        return 
-    while True:
-        print(f"{h:02}:{m:02}:{s:02}", end='\r')
-        time.sleep(1)
-        s += 1
-        if s == 60:
-            s = 0
-            m += 1
-        if m == 60:
-            m = 0
-            h += 1
-        if h == 24:
-            h = 0
-            sleep(1)
-        os.system('cls')
-        continue
+        heure_debut = input("Entrez l'heure de départ HH:MM:SS : ")    
+        try:
+            h, m, s = map(int, heure_debut.split(':'))
+            if not (0 <= h < 24 and 0 <= m < 60 and 0 <= s < 60):
+                print("Heure invalide. Veuillez entrer une heure valide.")
+                return
+        except ValueError:
+            print("Format invalide. Veuillez entrer l'heure au format HH:MM:SS.")
+            return 
+
+        while True:
+            print(f"{h:02}:{m:02}:{s:02}", end='\r')
+            time.sleep(1)
+            s += 1
+            if s == 60:
+                s = 0
+                m += 1
+            if m == 60:
+                m = 0
+                h += 1
+            if h == 24:
+                h = 0
+            os.system('cls')  # Efface l'écran pour un affichage propre
+
+    except KeyboardInterrupt:
+        print("\nHorloge interrompue par l'utilisateur. Retour au menu.")
+        return
+
 
 def menu():
     while True:
