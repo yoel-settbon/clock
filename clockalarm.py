@@ -32,6 +32,7 @@ def afficher_heure(heure_reveil):
 
             os.system('cls')
     except KeyboardInterrupt:
+        pygame.mixer.stop()
         print("\nAffichage de l'heure interrompu par l'utilisateur. Retour au menu.")
 
 
