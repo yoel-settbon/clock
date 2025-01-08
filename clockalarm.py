@@ -1,5 +1,7 @@
 from datetime import datetime
 import time
+import os
+from time import sleep
 import pygame  # Importer pygame pour jouer des fichiers audio
 pygame.init()
 
@@ -7,44 +9,39 @@ pygame.init()
 alarme_sound = pygame.mixer.Sound("alarm.wav")
 
 def alarme():
-    """Permet à l'utilisateur de régler une alarme."""
-    heure_reveil = input("Régler un réveil (HH:MM:SS) : ")
+    heure_reveil = input("Régler un réveil (HH:MM:SS) :")
     try:
-        # Vérifier si l'heure entrée est valide
         time.strptime(heure_reveil, "%H:%M:%S")
         return heure_reveil
     except ValueError:
         print("Heure non valide, entrer une heure valide.")
         return alarme()
 
-def afficher_heure(heure_reveil=None):
-    """Affiche l'heure et joue l'alarme lorsque l'heure de réveil est atteinte."""
+def afficher_heure(heure_reveil):
     while True:
         now = datetime.now()
         heure_actuel = now.strftime("%H:%M:%S")
         print(heure_actuel, end="\r")  
-        time.sleep(1)  
-
-        # Vérifier si l'heure actuelle correspond à l'heure de réveil
-        if heure_reveil and heure_actuel == heure_reveil:
-            print("\nRéveil ! L'heure est arrivée.")
-            alarme_sound.play()  # Jouer l'alarme
+        time.sleep(1)
+        if heure_actuel == heure_reveil:
+            print("\nDebout, FEIGNAAAAASSEEEE !!!!! ")
+            alarme_sound.play()
+            sleep(16)
+        os.system('cls')
+        continue
 
 def horloge():
-    """Affiche l'heure à partir de l'heure de départ et incrémente les secondes."""
     heure_debut = input("Entrez l'heure de départ HH:MM:SS :")    
     try:
         h, m, s = map(int, heure_debut.split(':'))
         if not (0 <= h < 24 and 0 <= m < 60 and 0 <= s < 60):
-            print("Heure invalide. Veuillez entrer une heure valide.")
+            print("Heure invalide. Veuillez entrer une heure valide .")
             return
     except ValueError:
         print("Format invalide. Veuillez entrer l'heure au format HH:MM:SS .")
         return 
-
-    # Afficher l'heure et incrémenter les secondes
     while True:
-        print(f"{h:02}:{m:02}:{s:02}", end='\r')
+        print("%H:%M:%S", end='\r')
         time.sleep(1)
         s += 1
         if s == 60:
@@ -55,31 +52,29 @@ def horloge():
             h += 1
         if h == 24:
             h = 0
-
 def menu():
-    """Affiche le menu principal pour naviguer dans les options."""
     while True:
-        print ("____MENU____")
+        print ("____MENU_DE_L'HORLOGE____")
         print ("1 : Afficher l'heure actuelle ")
         print ("2 : Régler une heure ")
         print ("3 : Régler une alarme ")
         print ("4 : Quitter ")
+        print ("__________________________")
         choix = input("Faites votre choix (1, 2, 3, 4) : ")
-        
+        sleep(1)
+        os.system('cls')
         if choix == "1" :
             print("\nIl est actuellement :")
-            afficher_heure()  # Afficher l'heure sans réglage d'alarme
+            afficher_heure(None)
         elif choix == "2" :
-            print("\nEntrée l'heure de votre choix :")
-            horloge()
+            print("\nVous êtes le maître du temps, choisissez l'heure que vous voulez :")
+            horloge() 
         elif choix == "3" :
-            heure_reveil = alarme()  # Demander l'heure de l'alarme
-            afficher_heure(heure_reveil)  # Afficher l'heure avec l'alarme
+            heure_reveil = alarme()
+            afficher_heure(heure_reveil)
         elif choix == "4" :
             print("Au revoir !")
-            break  # Quitter le programme
+            break
         else:
             print("Choix invalide. Essayez à nouveau.")
-
-# Lancer le menu principal
 menu()
