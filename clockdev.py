@@ -5,7 +5,6 @@ from time import sleep
 import pygame  # Importer pygame pour jouer des fichiers audio
 pygame.init()
 
-# Charger le son de l'alarme
 alarme_sound = pygame.mixer.Sound("alarm.wav")
 
 def alarme():
@@ -21,7 +20,7 @@ def afficher_heure(heure_reveil):
     try:
         while True:
             now = datetime.now()
-            heure_actuel = now.strftime("%H:%M:%S")
+            heure_actuel = now.strftime("%A %d %m %Y --- %I:%M:%S %p ---")            
             print(heure_actuel, end="\r")
             time.sleep(1)
 
@@ -38,34 +37,33 @@ def afficher_heure(heure_reveil):
 
 def horloge():
     try:
-        heure_debut = input("Entrez l'heure de départ HH:MM:SS : ")    
+        heure_debut = input("Entrez l'heure de départ HH:MM:SS :")   
         try:
             h, m, s = map(int, heure_debut.split(':'))
             if not (0 <= h < 24 and 0 <= m < 60 and 0 <= s < 60):
-                print("Heure invalide. Veuillez entrer une heure valide.")
+                print("Heure invalide. Veuillez entrer une heure valide .")
                 return
         except ValueError:
-            print("Format invalide. Veuillez entrer l'heure au format HH:MM:SS.")
+            print("Format invalide. Veuillez entrer l'heure au format HH:MM:SS .")
             return 
-
+        
         while True:
-            print(f"{h:02}:{m:02}:{s:02}", end='\r')
+            print(f"{h:02}:{m:02}:{s:02}", end="\r")
             time.sleep(1)
             s += 1
             if s == 60:
                 s = 0
                 m += 1
-            if m == 60:
+            elif m == 60:
                 m = 0
                 h += 1
-            if h == 24:
+            elif h == 24:
                 h = 0
-            os.system('cls')  # Efface l'écran pour un affichage propre
-
+            os.system('cls') 
+    
     except KeyboardInterrupt:
         print("\nHorloge interrompue par l'utilisateur. Retour au menu.")
-        return
-
+        return # Efface l'écran pour un affichage propre
 
 def menu():
     while True:
@@ -74,13 +72,13 @@ def menu():
         print ("2 : Régler une heure ")
         print ("3 : Régler une alarme ")
         print ("4 : Quitter ")
-        print ("__________________________")
+        print ("_________________________")
         choix = input("Faites votre choix (1, 2, 3, 4) : ")
         sleep(1)
         os.system('cls')
         if choix == "1" :
             print("\nIl est actuellement :")
-            afficher_heure(None)
+            afficher_heure(None)           
         elif choix == "2" :
             print("\nVous êtes le maître du temps, choisissez l'heure que vous voulez :")
             horloge() 
