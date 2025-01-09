@@ -39,6 +39,7 @@ def horloge():
         if h == 24:
             h = 0
 def menu():
+    print
     print ("____MENU_DE_L'HORLOGE____")
     print ("1 : Afficher l'heure actuelle ")
     print ("2 : Régler une heure ")
