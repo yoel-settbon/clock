@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, time as dt_time
 import time
 import os
 from time import sleep
@@ -8,32 +8,34 @@ pygame.init()
 alarme_sound = pygame.mixer.Sound("alarm.wav")
 
 def alarme():
-    heure_reveil = input("Régler un réveil (HH:MM:SS) :")
+    heure_reveil = input("Régler un réveil (HH:MM:SS) : ")
     try:
-        time.strptime(heure_reveil, "%H:%M:%S")
-        return heure_reveil
+        # Convertir l'entrée en objet datetime.time
+        h, m, s = map(int, heure_reveil.split(':'))
+        return dt_time(h, m, s)
     except ValueError:
-        print("Heure non valide, entrer une heure valide.")
+        print("Heure non valide, veuillez entrer une heure au format HH:MM:SS.")
         return alarme()
 
 def afficher_heure(heure_reveil):
     try:
         while True:
             now = datetime.now()
-            heure_actuel = now.strftime("%A %d %m %Y --- %I:%M:%S %p ---")            
-            print(heure_actuel, end="\r")
+            heure_actuelle = now.time()  # Obtenir uniquement l'heure actuelle (objet time)
+            affichage = now.strftime("%A %d %m %Y --- %I:%M:%S %p ---")  # Format AM/PM
+            print(affichage, end="\r")
             time.sleep(1)
 
-            if heure_actuel == heure_reveil:
+            if heure_reveil and heure_actuelle >= heure_reveil:  # Comparaison des objets time
                 print("\nDebout, FEIGNAAAAASSEEEE !!!!! ")
                 alarme_sound.play()
                 sleep(16)
+                break  # Arrêter la boucle après avoir joué l'alarme
 
             os.system('cls')
     except KeyboardInterrupt:
         pygame.mixer.stop()
         print("\nAffichage de l'heure interrompu par l'utilisateur. Retour au menu.")
-
 
 def horloge():
     try:
@@ -41,10 +43,10 @@ def horloge():
         try:
             h, m, s = map(int, heure_debut.split(':'))
             if not (0 <= h < 24 and 0 <= m < 60 and 0 <= s < 60):
-                print("Heure invalide. Veuillez entrer une heure valide .")
+                print("Heure invalide. Veuillez entrer une heure valide.")
                 return
         except ValueError:
-            print("Format invalide. Veuillez entrer l'heure au format HH:MM:SS .")
+            print("Format invalide. Veuillez entrer l'heure au format HH:MM:SS.")
             return 
         
         while True:
@@ -54,10 +56,10 @@ def horloge():
             if s == 60:
                 s = 0
                 m += 1
-            elif m == 60:
+            if m == 60:
                 m = 0
                 h += 1
-            elif h == 24:
+            if h == 24:
                 h = 0
             os.system('cls') 
     
@@ -67,27 +69,28 @@ def horloge():
 
 def menu():
     while True:
-        print ("____MENU_DE_L'HORLOGE____")
-        print ("1 : Afficher l'heure actuelle ")
-        print ("2 : Régler une heure ")
-        print ("3 : Régler une alarme ")
-        print ("4 : Quitter ")
-        print ("_________________________")
+        print("____MENU_DE_L'HORLOGE____")
+        print("1 : Afficher l'heure actuelle")
+        print("2 : Régler une heure")
+        print("3 : Régler une alarme")
+        print("4 : Quitter")
+        print("_________________________")
         choix = input("Faites votre choix (1, 2, 3, 4) : ")
         sleep(1)
         os.system('cls')
-        if choix == "1" :
+        if choix == "1":
             print("\nIl est actuellement :")
             afficher_heure(None)           
-        elif choix == "2" :
+        elif choix == "2":
             print("\nVous êtes le maître du temps, choisissez l'heure que vous voulez :")
             horloge() 
-        elif choix == "3" :
+        elif choix == "3":
             heure_reveil = alarme()
             afficher_heure(heure_reveil)
-        elif choix == "4" :
+        elif choix == "4":
             print("Au revoir !")
             break
         else:
             print("Choix invalide. Essayez à nouveau.")
+
 menu()
