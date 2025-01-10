@@ -1,5 +1,7 @@
 from datetime import datetime
 import time
+import os
+from time import sleep
 def alarme():
     heure_reveil = input("Régler un réveil (HH:MM:SS) :")
     try:
@@ -39,13 +41,15 @@ def horloge():
         if h == 24:
             h = 0
 def menu():
-    print
-    print ("____MENU_DE_L'HORLOGE____")
+    print ("______MENU_DE_L'HORLOGE______")
     print ("1 : Afficher l'heure actuelle ")
     print ("2 : Régler une heure ")
     print ("3 : Régler une alarme ")
     print ("4 : Quitter ")
+    print ("_____________________________")
     choix = input("Faites votre choix (1, 2, 3, 4) : ")
+    sleep(1)
+    os.system('cls')
     if choix == "1" :
         print("\nIl est actuellement :")
         afficher_heure(None)

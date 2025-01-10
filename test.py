@@ -5,7 +5,7 @@ from time import sleep
 def alarme():
     heure_reveil = input("Régler un réveil (HH:MM:SS) :")
     try:
-        time.strptime(heure_reveil, "%H:%M:%S")
+        time.strftime(heure_reveil, "%H:%M:%S")
         return heure_reveil
     except ValueError:
         print("Heure non valide, entrer une heure valide.")
@@ -13,7 +13,7 @@ def alarme():
 def afficher_heure(heure_reveil):
     while True:
         now = datetime.now()
-        heure_actuel = now.strftime("%A %d %m %Y --- %I:%M:%S %p ---")
+        heure_actuel = now.strftime("%H:%M:%S")
         print(heure_actuel, end="\r")  
         time.sleep(1)  
         if heure_actuel == heure_reveil:
