@@ -12,7 +12,7 @@ def alarme():
     # demande à l'utilisateur de régler une alarme
     heure_reveil = input("Régler un réveil (HH:MM:SS AM/PM) :")
     try:
-    # s'assure que l'heure entrée est au format voulu AM/PM        time.strptime(heure_reveil, "%I:%M:%S %p")
+    # s'assure que l'heure entrée est au format voulu AM/PM
         return heure_reveil
     except ValueError:
     # si le format est invalide un message d'erreur s'affiche et redemande de rentrer l'heure
